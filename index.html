@@ -67,9 +67,37 @@
   }
   .actions a span { color: var(--muted); font-size: 1rem; font-weight: 400; }
   .actions a:hover, .actions a:hover span { color: var(--link); }
-  .ask { margin: 1rem 0 0; color: var(--muted); }
-  .ask a { color: var(--ink); text-underline-offset: 0.18em; }
-  .ask a:hover { color: var(--link); }
+  .open-pw {
+    width: 100%; display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+    padding: 1rem 0; background: none; border: 0; font: inherit; color: var(--ink);
+    font-size: 1.25rem; font-weight: 500; text-align: left; cursor: pointer;
+  }
+  .open-pw span { color: var(--muted); font-size: 1rem; font-weight: 400; }
+  .open-pw:hover, .open-pw:hover span { color: var(--link); }
+  dialog {
+    border: 1px solid var(--ink); border-radius: 6px; padding: 1.75rem; width: min(28rem, calc(100vw - 2rem));
+    background: var(--bg); color: var(--ink); font-family: var(--font);
+  }
+  dialog::backdrop { background: rgba(20, 33, 29, 0.35); }
+  dialog h2 { font-size: 1.5rem; font-weight: 500; letter-spacing: -0.02em; margin: 0 0 1rem; }
+  dialog label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
+  .pw-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .pw-row input {
+    flex: 1 1 10rem; font: inherit; padding: 0.7rem 0.85rem; min-height: 48px;
+    border: 1px solid var(--ink); border-radius: 4px; background: #fff; color: var(--ink);
+  }
+  .pw-row button, .close {
+    font: inherit; font-weight: 500; padding: 0.7rem 1.1rem; min-height: 48px; border-radius: 4px; cursor: pointer;
+  }
+  .pw-row button { border: 1px solid var(--ink); background: var(--ink); color: var(--bg); }
+  .pw-row button:hover { background: var(--link); border-color: var(--link); }
+  .pw-error { color: #A1260D; margin: 0.6rem 0 0; min-height: 1.55em; font-size: 0.95rem; }
+  .pw-foot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  .pw-foot a { color: var(--ink); text-underline-offset: 0.18em; }
+  .pw-foot a:hover { color: var(--link); }
+  .close { border: 1px solid var(--rule); background: transparent; color: var(--ink); }
+  .close:hover { border-color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--link); outline-offset: 3px; border-radius: 2px; }
   a:focus-visible { outline: 3px solid var(--link); outline-offset: 4px; border-radius: 2px; }
 </style>
 </head>
@@ -78,12 +106,51 @@
   <h1 aria-label="Hello"><span class="greet" aria-hidden="true"><span>Hello</span><span lang="tl">Kamusta</span></span></h1>
   <p class="role">I'm Abe Nito<br>— product designer at Microsoft.</p>
   <ul class="actions">
-    <li><a href="portfolio.html">Portfolio <span>Password protected</span></a></li>
+    <li><button type="button" class="open-pw" aria-haspopup="dialog">Portfolio <span>View</span></button></li>
     <li><a href="resume.pdf">Resume <span>PDF</span></a></li>
     <li><a href="mailto:hello@abenito.com">Email <span>hello@abenito.com</span></a></li>
     <li><a href="https://www.linkedin.com/in/abenito/">LinkedIn <span>/in/abenito</span></a></li>
   </ul>
-  <p class="ask"><a href="mailto:hello@abenito.com?subject=Portfolio%20access">Email me to view portfolio</a></p>
 </main>
+
+<dialog id="pw-dialog" aria-labelledby="pw-title">
+  <form id="pw-form">
+    <h2 id="pw-title">View portfolio</h2>
+    <label for="pw">Password</label>
+    <div class="pw-row">
+      <input id="pw" type="password" autocomplete="current-password" required>
+      <button type="submit">View portfolio</button>
+    </div>
+    <p class="pw-error" id="pw-error" role="alert"></p>
+    <div class="pw-foot">
+      <a href="mailto:hello@abenito.com?subject=Portfolio%20access">Email to view portfolio</a>
+      <button type="button" class="close" id="pw-close">Close</button>
+    </div>
+  </form>
+</dialog>
+<script>
+  // Simple gate for casual visitors only. Not real security.
+  var HASH = "81a83544cf93c245178cbc1620030f1123f435af867c79d87135983c52ab39d9";
+  var dlg = document.getElementById("pw-dialog"), input = document.getElementById("pw"), err = document.getElementById("pw-error");
+  document.querySelector(".open-pw").addEventListener("click", function () {
+    try { if (sessionStorage.getItem("portfolio") === "1") { location.href = "portfolio.html"; return; } } catch (e) {}
+    err.textContent = ""; input.value = ""; dlg.showModal(); input.focus();
+  });
+  document.getElementById("pw-close").addEventListener("click", function () { dlg.close(); });
+  async function sha256(t) {
+    var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+    return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+  }
+  document.getElementById("pw-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    if (await sha256(input.value.trim()) === HASH) {
+      try { sessionStorage.setItem("portfolio", "1"); } catch (e) {}
+      location.href = "portfolio.html";
+    } else {
+      err.textContent = "That password isn't right. Try again, or email me for access.";
+      input.select();
+    }
+  });
+</script>
 </body>
 </html>
