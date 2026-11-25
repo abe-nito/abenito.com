@@ -11,7 +11,7 @@ Personal site for Abe Nito, product designer at Microsoft (Vancouver). Hosted on
 ## Current design
 - A "work in progress" home page. The headline animates between "Hello" and "Kamusta" (it respects reduced motion).
 - Copy: "I'm Abe Nito / — product designer at Microsoft."
-- Links: Portfolio ("View" opens a password popup; correct password goes to portfolio.html; popup has an "Email to view portfolio" mailto link), Resume (resume.pdf), Email (hello@abenito.com), LinkedIn (linkedin.com/in/abenito).
+- Links: Portfolio ("View" opens a password popup; correct password goes to portfolio.html; popup has a "No password? Email for access" mailto link), Resume (resume.pdf), Email (hello@abenito.com), LinkedIn (linkedin.com/in/abenito).
 - Style: Helvetica ("Helvetica Neue", Helvetica, Arial), a very light canary yellow background (#FFFADB), dark text (#14211D), thin lines between links, and a black circle SVG favicon.
 
 ## How to work
