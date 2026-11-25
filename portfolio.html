@@ -6,6 +6,18 @@
 <meta name="robots" content="noindex">
 <title>Portfolio, Abe Nito</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23000'/%3E%3C/svg%3E">
+<!-- Google Analytics -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  var gaChoice = null;
+  try { gaChoice = localStorage.getItem("ga-consent"); } catch (e) {}
+  gtag("consent", "default", { analytics_storage: gaChoice === "denied" ? "denied" : "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+  gtag("js", new Date());
+  gtag("config", "G-T7JPN658FL");
+  function track(name, params) { gtag("event", name, params || {}); }
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T7JPN658FL"></script>
 <style>
   :root {
     --bg: #FFFADB;
@@ -43,6 +55,20 @@
   a:hover { color: var(--link); }
   :focus-visible { outline: 3px solid var(--link); outline-offset: 3px; border-radius: 2px; }
   [hidden] { display: none !important; }
+  .ga-notice {
+    position: fixed; left: 1rem; bottom: 1rem; z-index: 5; max-width: 22rem;
+    display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+    padding: 0.75rem 0.9rem; background: #fff; color: #14211D; border: 1px solid #C9D2CB; border-radius: 8px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 0.875rem; line-height: 1.4;
+    box-shadow: 0 6px 18px rgba(20, 33, 29, 0.08);
+  }
+  .ga-notice p { margin: 0; flex: 1 1 100%; }
+  .ga-notice button {
+    font: inherit; font-weight: 500; min-height: 44px; padding: 0 0.9rem; border-radius: 6px; cursor: pointer;
+    border: 1px solid #14211D; background: #14211D; color: #FFFADB;
+  }
+  .ga-notice button.ga-out { background: transparent; color: #14211D; border-color: #C9D2CB; }
+  .ga-notice[hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -58,7 +84,7 @@
       </div>
       <p class="error" id="error" role="alert"></p>
     </form>
-    <p class="meta">No password? <a href="mailto:hello@abenito.com?subject=Portfolio%20access">Email for access</a></p>
+    <p class="meta">No password? <a href="mailto:hello@abenito.com?subject=Portfolio%20access" onclick="track('request_access', {location: 'portfolio_page'})">Email for access</a></p>
     <p class="meta"><a href="./">Back to home</a></p>
   </section>
 
@@ -83,12 +109,33 @@
     var input = document.getElementById("pw"), err = document.getElementById("error");
     if (await sha256(input.value.trim()) === HASH) {
       try { sessionStorage.setItem("portfolio", "1"); } catch (e) {}
+      track("portfolio_unlocked", {location: "portfolio_page"});
       err.textContent = ""; unlock(); document.getElementById("content-title").focus();
     } else {
       err.textContent = "That password isn't right. Check it and try again, or email me for access.";
       input.select();
     }
   });
+</script>
+<div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice" hidden>
+  <p>This site uses Google Analytics to see how it's used.</p>
+  <button type="button" id="ga-ok">OK</button>
+  <button type="button" class="ga-out" id="ga-out">Opt out</button>
+</div>
+<script>
+  (function () {
+    var box = document.getElementById("ga-notice");
+    var saved = null;
+    try { saved = localStorage.getItem("ga-consent"); } catch (e) {}
+    if (!saved) box.hidden = false;
+    function choose(v) {
+      try { localStorage.setItem("ga-consent", v); } catch (e) {}
+      gtag("consent", "update", { analytics_storage: v });
+      box.hidden = true;
+    }
+    document.getElementById("ga-ok").addEventListener("click", function () { choose("granted"); });
+    document.getElementById("ga-out").addEventListener("click", function () { choose("denied"); });
+  })();
 </script>
 </body>
 </html>

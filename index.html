@@ -6,6 +6,18 @@
 <title>Abe Nito, product designer</title>
 <meta name="description" content="Abe Nito is a product designer at Microsoft in Vancouver. Portfolio coming soon.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23000'/%3E%3C/svg%3E">
+<!-- Google Analytics -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  var gaChoice = null;
+  try { gaChoice = localStorage.getItem("ga-consent"); } catch (e) {}
+  gtag("consent", "default", { analytics_storage: gaChoice === "denied" ? "denied" : "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+  gtag("js", new Date());
+  gtag("config", "G-T7JPN658FL");
+  function track(name, params) { gtag("event", name, params || {}); }
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T7JPN658FL"></script>
 <style>
   :root {
     --bg: #FFFADB;
@@ -103,6 +115,20 @@
   .pw-foot a:hover { color: var(--link); }
   :focus-visible { outline: 3px solid var(--link); outline-offset: 3px; border-radius: 2px; }
   a:focus-visible { outline: 3px solid var(--link); outline-offset: 4px; border-radius: 2px; }
+  .ga-notice {
+    position: fixed; left: 1rem; bottom: 1rem; z-index: 5; max-width: 22rem;
+    display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+    padding: 0.75rem 0.9rem; background: #fff; color: #14211D; border: 1px solid #C9D2CB; border-radius: 8px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 0.875rem; line-height: 1.4;
+    box-shadow: 0 6px 18px rgba(20, 33, 29, 0.08);
+  }
+  .ga-notice p { margin: 0; flex: 1 1 100%; }
+  .ga-notice button {
+    font: inherit; font-weight: 500; min-height: 44px; padding: 0 0.9rem; border-radius: 6px; cursor: pointer;
+    border: 1px solid #14211D; background: #14211D; color: #FFFADB;
+  }
+  .ga-notice button.ga-out { background: transparent; color: #14211D; border-color: #C9D2CB; }
+  .ga-notice[hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -111,9 +137,9 @@
   <p class="role">I'm Abe Nito<br>— product designer at Microsoft.</p>
   <ul class="actions">
     <li><button type="button" class="open-pw" aria-haspopup="dialog">Portfolio <span>View</span></button></li>
-    <li><a href="resume.pdf">Resume <span>PDF</span></a></li>
-    <li><a href="mailto:hello@abenito.com">Email <span>hello@abenito.com</span></a></li>
-    <li><a href="https://www.linkedin.com/in/abenito/">LinkedIn <span>/in/abenito</span></a></li>
+    <li><a href="resume.pdf" onclick="track('resume_click')">Resume <span>PDF</span></a></li>
+    <li><a href="mailto:hello@abenito.com" onclick="track('email_click')">Email <span>hello@abenito.com</span></a></li>
+    <li><a href="https://www.linkedin.com/in/abenito/" onclick="track('linkedin_click')">LinkedIn <span>/in/abenito</span></a></li>
   </ul>
 </main>
 
@@ -125,7 +151,7 @@
     <input id="pw" type="password" autocomplete="current-password" required aria-describedby="pw-error">
     <p class="pw-error" id="pw-error" role="alert" hidden></p>
     <button type="submit" class="pw-submit">View portfolio</button>
-    <p class="pw-foot">No password? <a href="mailto:hello@abenito.com?subject=Portfolio%20access">Email for access</a></p>
+    <p class="pw-foot">No password? <a href="mailto:hello@abenito.com?subject=Portfolio%20access" onclick="track('request_access', {location: 'popup'})">Email for access</a></p>
   </form>
 </dialog>
 <script>
@@ -134,7 +160,7 @@
   var dlg = document.getElementById("pw-dialog"), input = document.getElementById("pw"), err = document.getElementById("pw-error");
   document.querySelector(".open-pw").addEventListener("click", function () {
     try { if (sessionStorage.getItem("portfolio") === "1") { location.href = "portfolio.html"; return; } } catch (e) {}
-    err.hidden = true; input.removeAttribute("aria-invalid"); input.value = ""; dlg.showModal(); input.focus();
+    track("portfolio_open"); err.hidden = true; input.removeAttribute("aria-invalid"); input.value = ""; dlg.showModal(); input.focus();
   });
   document.getElementById("pw-close").addEventListener("click", function () { dlg.close(); });
   async function sha256(t) {
@@ -145,12 +171,34 @@
     e.preventDefault();
     if (await sha256(input.value.trim()) === HASH) {
       try { sessionStorage.setItem("portfolio", "1"); } catch (e) {}
-      location.href = "portfolio.html";
+      track("portfolio_unlocked", {location: "popup"});
+      setTimeout(function () { location.href = "portfolio.html"; }, 150);
     } else {
+      track("portfolio_wrong_password");
       err.textContent = "That password didn't work. Check it and try again.";
       err.hidden = false; input.setAttribute("aria-invalid", "true"); input.select();
     }
   });
+</script>
+<div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice" hidden>
+  <p>This site uses Google Analytics to see how it's used.</p>
+  <button type="button" id="ga-ok">OK</button>
+  <button type="button" class="ga-out" id="ga-out">Opt out</button>
+</div>
+<script>
+  (function () {
+    var box = document.getElementById("ga-notice");
+    var saved = null;
+    try { saved = localStorage.getItem("ga-consent"); } catch (e) {}
+    if (!saved) box.hidden = false;
+    function choose(v) {
+      try { localStorage.setItem("ga-consent", v); } catch (e) {}
+      gtag("consent", "update", { analytics_storage: v });
+      box.hidden = true;
+    }
+    document.getElementById("ga-ok").addEventListener("click", function () { choose("granted"); });
+    document.getElementById("ga-out").addEventListener("click", function () { choose("denied"); });
+  })();
 </script>
 </body>
 </html>
