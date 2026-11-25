@@ -67,6 +67,9 @@
   }
   .actions a span { color: var(--muted); font-size: 1rem; font-weight: 400; }
   .actions a:hover, .actions a:hover span { color: var(--link); }
+  .ask { margin: 1rem 0 0; color: var(--muted); }
+  .ask a { color: var(--ink); text-underline-offset: 0.18em; }
+  .ask a:hover { color: var(--link); }
   a:focus-visible { outline: 3px solid var(--link); outline-offset: 4px; border-radius: 2px; }
 </style>
 </head>
@@ -74,12 +77,13 @@
 <main>
   <h1 aria-label="Hello"><span class="greet" aria-hidden="true"><span>Hello</span><span lang="tl">Kamusta</span></span></h1>
   <p class="role">I'm Abe Nito<br>— product designer at Microsoft.</p>
-  <p class="note">This portfolio is in progress.</p>
   <ul class="actions">
+    <li><a href="portfolio.html">Portfolio <span>Password protected</span></a></li>
     <li><a href="resume.pdf">Resume <span>PDF</span></a></li>
     <li><a href="mailto:hello@abenito.com">Email <span>hello@abenito.com</span></a></li>
     <li><a href="https://www.linkedin.com/in/abenito/">LinkedIn <span>/in/abenito</span></a></li>
   </ul>
+  <p class="ask"><a href="mailto:hello@abenito.com?subject=Portfolio%20access">Email me to view portfolio</a></p>
 </main>
 </body>
 </html>
