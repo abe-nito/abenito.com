@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About, Abe Nito</title>
+<meta name="description" content="About Abe Nito, a product designer at Microsoft in Vancouver, BC.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23000'/%3E%3C/svg%3E">
+<!-- Google Analytics -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  var gaChoice = null;
+  try { gaChoice = localStorage.getItem("ga-consent"); } catch (e) {}
+  gtag("consent", "default", { analytics_storage: gaChoice === "denied" ? "denied" : "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+  gtag("js", new Date());
+  gtag("config", "G-T7JPN658FL");
+  function track(name, params) { gtag("event", name, params || {}); }
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T7JPN658FL"></script>
+<style>
+  :root {
+    --bg: #FFFADB;
+    --ink: #14211D;
+    --muted: #56655F;
+    --rule: #C9D2CB;
+    --link: #2E46C8;
+    --font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font);
+    font-size: 1.0625rem; line-height: 1.6; padding: clamp(1.5rem, 6vw, 4.5rem);
+  }
+  .home { display: inline-block; color: var(--ink); text-decoration: none; font-weight: 500; padding: 0.5rem 0; }
+  .home:hover { color: var(--link); }
+  main { max-width: 40rem; padding: clamp(3rem, 10vw, 7rem) 0 clamp(3rem, 8vw, 5rem); }
+  h1 { font-size: clamp(2.75rem, 8vw, 5.5rem); font-weight: 500; letter-spacing: -0.04em; line-height: 0.95; margin: 0 0 clamp(2rem, 5vw, 3rem); }
+  .lede { font-size: clamp(1.2rem, 2.4vw, 1.5rem); line-height: 1.45; margin: 0 0 2rem; }
+  main p { margin: 0 0 1.25rem; }
+  .closer { font-weight: 500; margin-top: 2rem; }
+  .note { margin-top: clamp(2.5rem, 6vw, 4rem); padding-top: 1.25rem; border-top: 1px solid var(--rule); color: var(--muted); }
+  .note i { color: var(--ink); font-style: italic; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; border-radius: 2px; }
+  .ga-notice {
+    position: fixed; left: 1rem; bottom: 1rem; z-index: 5; max-width: 22rem;
+    display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+    padding: 0.75rem 0.9rem; background: #fff; color: #14211D; border: 1px solid #C9D2CB; border-radius: 8px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 0.875rem; line-height: 1.4;
+    box-shadow: 0 6px 18px rgba(20, 33, 29, 0.08);
+  }
+  .ga-notice p { margin: 0; flex: 1 1 100%; }
+  .ga-notice button {
+    font: inherit; font-weight: 500; min-height: 44px; padding: 0 0.9rem; border-radius: 6px; cursor: pointer;
+    border: 1px solid #14211D; background: #14211D; color: #FFFADB;
+  }
+  .ga-notice button.ga-out { background: transparent; color: #14211D; border-color: #C9D2CB; }
+  .ga-notice[hidden] { display: none; }
+</style>
+</head>
+<body>
+<a class="home" href="./">Abe Nito</a>
+<main>
+  <h1>Hello, I’m Abe.</h1>
+  <p class="lede">A Product Designer at Microsoft, based in Vancouver, BC, currently shaping Azure portal experiences across Azure Kubernetes Service (AKS), Compute, end-to-end experiences, and Growth.</p>
+  <p>I thrive in complex problem spaces, turning technical challenges into simple, intuitive, and meaningful experiences. My approach to design goes beyond the interface — thinking in systems, connecting the dots across experiences, and balancing customer needs, technical constraints, and business goals.</p>
+  <p>Born and raised in Manila, Philippines, I began my career in marketing and advertising before moving to Vancouver and finding my way into tech. That background continues to shape how I approach design today, from understanding human behavior and communicating meaningful stories to influencing strategy and bringing people together around a shared vision.</p>
+  <p>At the heart of my work is a curiosity about people and technology, and a belief that even the most complex products can feel approachable and human.</p>
+  <p>Outside of design, you’ll find me exploring new places, discovering new tastes, seeking out good coffee, and enjoying live music. I love working with my hands through pottery, staying active through cycling and running, and, more recently, seeing the world through the lens of a camera.</p>
+  <p class="closer">Always curious, always creating, and always discovering something new.</p>
+  <p class="note"><i lang="tl">Kamusta?</i> — “How are you?” in Tagalog. A familiar greeting from the place that raised me.</p>
+</main>
+<div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice" hidden>
+  <p>This site uses Google Analytics to see how it's used.</p>
+  <button type="button" id="ga-ok">OK</button>
+  <button type="button" class="ga-out" id="ga-out">Opt out</button>
+</div>
+<script>
+  (function () {
+    var box = document.getElementById("ga-notice");
+    var saved = null;
+    try { saved = localStorage.getItem("ga-consent"); } catch (e) {}
+    if (!saved) box.hidden = false;
+    function choose(v) {
+      try { localStorage.setItem("ga-consent", v); } catch (e) {}
+      gtag("consent", "update", { analytics_storage: v });
+      box.hidden = true;
+    }
+    document.getElementById("ga-ok").addEventListener("click", function () { choose("granted"); });
+    document.getElementById("ga-out").addEventListener("click", function () { choose("denied"); });
+  })();
+</script>
+</body>
+</html>
