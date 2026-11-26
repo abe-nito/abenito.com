@@ -113,6 +113,7 @@
   .pw-foot { margin: 1.25rem 0 0; padding-top: 1.125rem; border-top: 1px solid #E6DFB8; font-size: 0.875rem; color: var(--muted); }
   .pw-foot a { color: var(--ink); text-underline-offset: 0.18em; }
   .pw-foot a:hover { color: var(--link); }
+  @media (max-width: 600px) { .pw-foot a { display: block; width: fit-content; margin-top: 0.25rem; } }
   :focus-visible { outline: 3px solid var(--link); outline-offset: 3px; border-radius: 2px; }
   a:focus-visible { outline: 3px solid var(--link); outline-offset: 4px; border-radius: 2px; }
   .ga-notice {
@@ -134,7 +135,7 @@
 <body>
 <main>
   <h1 aria-label="Hello"><span class="greet" aria-hidden="true"><span>Hello</span><span lang="tl">Kamusta</span></span></h1>
-  <p class="role">I'm Abe Nito<br>— product designer at Microsoft.</p>
+  <p class="role">I'm Abe Nito<br>— product designer at Microsoft</p>
   <ul class="actions">
     <li><button type="button" class="open-pw" aria-haspopup="dialog">Portfolio <span>View</span></button></li>
     <li><a href="resume.pdf" onclick="track('resume_click')">Resume <span>PDF</span></a></li>
