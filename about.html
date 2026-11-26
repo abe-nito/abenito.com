@@ -42,6 +42,9 @@
   .closer { font-weight: 500; margin-top: 2rem; }
   .note { margin-top: clamp(2.5rem, 6vw, 4rem); padding-top: 1.25rem; border-top: 1px solid var(--rule); color: var(--muted); }
   .note i { color: var(--ink); font-style: italic; }
+  .say { margin-top: 1rem; }
+  .say a { color: var(--ink); text-underline-offset: 0.18em; }
+  .say a:hover { color: var(--link); }
   a:focus-visible, button:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; border-radius: 2px; }
   .ga-notice {
     position: fixed; left: 1rem; bottom: 1rem; z-index: 5; max-width: 22rem;
@@ -71,6 +74,7 @@
   <p>Outside of design, you’ll find me exploring new places, discovering new tastes, seeking out good coffee, and enjoying live music. I love working with my hands through pottery, staying active through cycling and running, and, more recently, seeing the world through the lens of a camera.</p>
   <p class="closer">Always curious, always creating, and always discovering something new.</p>
   <p class="note"><i lang="tl">Kamusta?</i> — “How are you?” in Tagalog. A familiar greeting from the place that raised me.</p>
+  <p class="say">Say hello at <a href="mailto:hello@abenito.com" onclick="track('email_click', {location: 'about'})">hello@abenito.com</a>.</p>
 </main>
 <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice" hidden>
   <p>This site uses Google Analytics to see how it's used.</p>
