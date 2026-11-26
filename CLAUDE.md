@@ -5,7 +5,7 @@ Personal site for Abe Nito, product designer at Microsoft (Vancouver). Hosted on
 ## Files
 - `index.html`: the home page, plain HTML/CSS. No frameworks or build step.
 - `portfolio.html`: the portfolio, behind a simple client-side password (SHA-256 hash in the page; not real security, so nothing confidential goes in it). Same styles as the home page.
-- `about.html`: About page (bio). Same styles and analytics as the home page; "Abe Nito" at top links home.
+- `about.html`: About page (bio) with a circle-cropped portrait (`abe.png`, transparent PNG) above the heading. Same styles and analytics as the home page; "Abe Nito" at top links home.
 - `resume.pdf`: linked from the page. File names are case-sensitive, so keep it exactly `resume.pdf`.
 - `CNAME`: contains `abenito.com`. Never delete or edit it.
 
